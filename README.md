@@ -28,7 +28,7 @@
 ### Todo
 - [ ] Verfügbarkeitsplan Team
 - [ ] Einlesen
-- [ ] Zeittabelle [300-500h/Person]
+- [x] [Zeittabelle [300-500h/Person]](https://docs.google.com/spreadsheets/d/1Y5u3R7V6bqwAI3mtcm51P9iCSfqQ9fepIYHyi3u8pyk/edit?gid=0#gid=0)
 - [ ] Logbuch von allen Tätigkeiten (Konfig-Änderungen, Passwörter, etc.)
 - [ ] Discord
 - [ ] Feineres Anforderungsdoc
