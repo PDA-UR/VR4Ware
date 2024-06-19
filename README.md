@@ -28,8 +28,11 @@
 ### Todo
 - [ ] Verfügbarkeitsplan Team
 - [ ] Einlesen
-- [ ] Einführung in Netzwerk/Technik: 27.06., 13:00 Uhr im VR4
 - [ ] Zeittabelle [300-500h/Person]
 - [ ] Logbuch von allen Tätigkeiten (Konfig-Änderungen, Passwörter, etc.)
 - [ ] Discord
 - [ ] Feineres Anforderungsdoc
+
+### Termine
+- Mensa und Meeting: Freitag, 21.06., 12:30 Uhr in OTH-Mensa
+- Einführung in Netzwerk/Technik: Donnerstag, 27.06., 13:00 Uhr im VR4
