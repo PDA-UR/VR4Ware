@@ -1,3 +1,5 @@
+// From: Arduino Client for MQTT (PubSubClient), by: Nick O’Leary (https://pubsubclient.knolleary.net/) MIT Licence.
+// Example accessible via the Arduino IDE: File -> Examples -> PubSubClient
 /*
  Basic ESP8266 MQTT example
  This sketch demonstrates the capabilities of the pubsub library in combination
