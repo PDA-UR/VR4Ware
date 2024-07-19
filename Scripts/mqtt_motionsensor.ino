@@ -137,7 +137,7 @@ void loop() {
 
   // If motion is detected (pirPin = HIGH), do the following:
   if (val == HIGH) {
-    digitalWrite(ledPin, HIGH); // Turn on the on-board LED.
+    digitalWrite(ledPin, LOW); // Turn on the on-board LED.
 
     // Change the motion state to true (motion detected):
     if (motionState == false) {
@@ -149,7 +149,7 @@ void loop() {
 
   // If no motion is detected (pirPin = LOW), do the following:
   else {
-    digitalWrite(ledPin, LOW); // Turn off the on-board LED.
+    digitalWrite(ledPin, HIGH); // Turn off the on-board LED.
 
     // Change the motion state to false (no motion):
     if (motionState == true) {
