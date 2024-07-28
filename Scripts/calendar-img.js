@@ -83,7 +83,6 @@ for (let i = 0;  i < calendarURLs.length; i++) {
         .then(data => {
             const events = readCalendar(data);
             const organizedEvents = organizeEvents(events);
-            console.log(names[i]);
             createCalendarImage(organizedEvents, names[i]);
         })
         .catch(error => {
