@@ -4,6 +4,99 @@ const ical = require('ical');
 
 const { createCanvas, loadImage } = require('canvas');
 
+
+/*******************/
+/*  Datumsabfrage  */
+/*******************/
+
+const today = new Date();
+let day     = today.getDate();
+let month   = addZero(today.getMonth() + 1);
+let year    = today.getFullYear();
+let hour    = today.getHours();
+let minute  = today.getMinutes();
+
+let currentDate = `${year}-${month}-${day}`;
+// currentDate = `2024-02-02`; // Zu Testzwecken Datum im Format 'yyyy-mm-dd' überschreiben
+
+
+/******************/
+/*  Canvas-Setup  */
+/******************/
+
+const width     = 600;
+const height    = 800;
+const canvas    = createCanvas(width, height);
+const ctx       = canvas.getContext('2d');
+
+const fs_larger = "22px";
+const fs_large  = "20px";
+const fs_reg    = "18px";
+const font      = '"DM Mono"';
+const space     = 30;
+const bigSpace  = space * 2;
+
+let yPosition   = 50;
+
+ctx.fillStyle   = 'white';
+ctx.fillRect(0, 0, width, height);
+
+
+/*****************/
+/*  Überschrift  */
+/*****************/
+
+ctx.textAlign = 'center'
+ctx.fillStyle = 'black';
+ctx.font      = `${fs_larger} ${font}`
+
+ctx.fillText(`Belegungsplan ${day}.${month}.${year}`, 300, yPosition);
+yPosition += space;
+ctx.font = `${fs_large} ${font}`
+ctx.fillText(`Stand ${addZero(hour)}:${addZero(minute)} Uhr`, 300, yPosition);
+yPosition += bigSpace;
+ctx.textAlign = 'left'
+
+
+/**********************/
+/*  Kalender-Quellen  */
+/**********************/
+
+const calendarURLs = [
+    'https://tools.mi.ur.de/davical/public.php/mi-lab/VR4-Labor',
+    'https://tools.mi.ur.de/davical/public.php/mi-lab/VR4-Werkstatt',
+    'https://tools.mi.ur.de/davical/public.php/mi-lab/VR4-Studio'
+    ];
+const names = [
+    'Labor',
+    'Werkstatt',
+    'Studio'
+    ];
+
+
+/******************/
+/*  Zeichen-Loop  */
+/******************/
+
+for (let i = 0;  i < calendarURLs.length; i++) {
+    fetchCalendar(calendarURLs[i])
+        .then(data => {
+            const events = readCalendar(data);
+            const organizedEvents = organizeEvents(events);
+            console.log(names[i]);
+            createCalendarImage(organizedEvents, names[i]);
+        })
+        .catch(error => {
+            console.error('Error fetching or processing calendar:', error);
+        }
+    );
+}
+
+
+/****************/
+/*  Funktionen  */
+/****************/
+
 async function fetchCalendar(url) {
     try {
         const response = await axios.get(url);
@@ -43,71 +136,35 @@ function addZero(month) {
     } return month;
 }
 
-function createCalendarImage(events, outputPath) {
-    const width = 600;
-    const height = 800;
-    const canvas = createCanvas(width, height);
-    const ctx = canvas.getContext('2d');
+function createCalendarImage(events, name) {
+    ctx.fillText(name, 50, yPosition);
+    yPosition += space;
 
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, width, height);
-
-    ctx.fillStyle = 'black';
-    ctx.font = '16px Arial';
-
-    ctx.fillText("Belegung FIL", 50, 30);
-
-
-    let yPosition = 50;
+    ctx.font = `${fs_reg} ${font}`;
+    
     let todayIncluded = false;
 
-    for (const date of Object.keys(events).sort()) {
-        const today = new Date();
-        let day = today.getDate();
-        let month = addZero(today.getMonth() + 1);
-        let year = today.getFullYear();
-
-        let currentDate = `${year}-${month}-${day}`;
-        
+    for (const date of Object.keys(events).sort()) {        
         if(date == currentDate) {
             todayIncluded = true;
-            console.log("Date match!");
-            ctx.fillText(date, 50, yPosition);
-            yPosition += 30;
+            events[date].sort((a, b) => a.start - b.start);
+
             if (events[date].length > 0) {
                 for (const event of events[date]) {
-                    const eventText = `${event.summary} (${event.start.toTimeString().split(' ')[0]} - ${event.end.toTimeString().split(' ')[0]})`;
-                    ctx.fillText(eventText, 100, yPosition);
-                    yPosition += 20;
-                    console.log(eventText);
+                    const eventText = `${addZero(event.start.getHours())}:${addZero(event.start.getMinutes())} – ${addZero(event.end.getHours())}:${addZero(event.end.getMinutes())} Uhr: ${event.summary}`;
+                    ctx.fillText(eventText, 50, yPosition);
+                    yPosition += space;
                 } 
             } else {
                 ctx.fillText("keine Termine heute.", 50, yPosition);
+                yPosition += bigSpace;
             }
         }
     }
 
-    todayIncluded ? null : ctx.fillText("keine Termine heute.", 50, yPosition);
+    todayIncluded ? null : ctx.fillText("keine Termine heute.", 50, yPosition); yPosition += bigSpace;
 
     const buffer = canvas.toBuffer('image/png');
-    writeFile('0_userdata.0', '/calendar1.png', buffer, function (error) { });
-
+    writeFile('0_userdata.0', '/calendar1.png', buffer, function (error) { }) // ioBroker-compliant
+    // fs.writeFileSync('calendar1.png', buffer); // Zu Testzwecken lokal ausgeben lassen
 }
-
-// Usage
-const calendarUrl = 'https://tools.mi.ur.de/davical/public.php/mi-lab/VR4-Labor';
-const outputImagePath = './files/0_userdata.0/images/calendar.png'; 
-
-function getRunningScript () {
-    return new Error().stack.match(/([^ \n])*([a-z]*:\/\/\/?)*?[a-z0-9\/\\]*\.js/ig)[0]
-}
-
-fetchCalendar(calendarUrl)
-    .then(data => {
-        const events = readCalendar(data);
-        const organizedEvents = organizeEvents(events);
-        createCalendarImage(organizedEvents, outputImagePath);
-    })
-    .catch(error => {
-        console.error('Error fetching or processing calendar:', error);
-    });
