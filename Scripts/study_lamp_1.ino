@@ -9,15 +9,13 @@
   https://www.arduino.cc/en/Tutorial/BuiltInExamples/Blink and
   https://github.com/knolleary/pubsubclient/blob/v2.8/examples/mqtt_esp8266/mqtt_esp8266.ino
 */
-// First try of full setup
 
 // PINS
 const int BOARD_LED = 2;
-// const int SWITCH_PIN = 0; // D3-Pin
-// const int SWITCH_LED = 4; // D2-Pin -> D2 is used for matrix
 const int SWITCH_PIN = 13; // D7-Pin
 const int SWITCH_LED = 15; // D8-Pin
 int switch_val = 0; 
+// 8x8 Matrix uses D1/D2 by default
 
 // NETWORK VALUES
 const char* ssid = "PLACEHOLDER";
@@ -101,13 +99,13 @@ void setup() {
   // Init digital pins
   pinMode(BOARD_LED, OUTPUT);  // BOARD_LED
   pinMode(SWITCH_PIN, INPUT_PULLUP); // SWITCH
+  pinMode(SWITCH_LED, OUTPUT); // SWITCH_LED
 
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   
   // Init LED-Matrix
-  matrix.begin(0x70);  // pass in the address
-
+  matrix.begin(0x70);
 }
 
 // LED "icons"
@@ -131,6 +129,7 @@ static const uint8_t PROGMEM
     B01000010,
     B00111100 };
 
+/* 8x8 MATRIX DRAW */
 void draw_study() {
   matrix.clear();
   matrix.drawBitmap(0, 0, frown_bmp, 8, 8, LED_ON);
@@ -148,21 +147,23 @@ void draw_no_study() {
 
 }
 
+/* MAIN - LOOP */
 void loop() {
   if (!client.connected()) {
       reconnect();
-      Serial.println("reconnecting...");
+      Serial.println("reconnecting");
     }
     client.loop();
 
   switch_val = digitalRead(SWITCH_PIN);
+  // Serial.println(switch_val);
 
   if (switch_val == LOW) { // NO study
 
     if (has_sent == 0) { // check to only publish the mqtt once per switch
       Serial.println("Publish message: off");
       digitalWrite(BOARD_LED, HIGH);
-      digitalWrite(SWITCH_LED, HIGH); 
+      digitalWrite(SWITCH_LED, LOW); 
       client.publish("study_lamp", "false");
       draw_no_study();
       has_sent = 1;
@@ -172,7 +173,7 @@ void loop() {
     if (has_sent == 1) {
       Serial.println("Publish message: on");
       digitalWrite(BOARD_LED, LOW);
-      digitalWrite(SWITCH_LED, LOW); 
+      digitalWrite(SWITCH_LED, HIGH); 
       client.publish("study_lamp", "true");
       draw_study();
       has_sent = 0;
@@ -181,4 +182,3 @@ void loop() {
   }
 
 }
-
