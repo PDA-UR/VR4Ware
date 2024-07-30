@@ -24,7 +24,7 @@ String mac_addr;
 void setup_wifi()
 {
     // Connect to Wi-Fi network with SSID and password
-    //WiFi.config(local_ip, gateway, subnet, dns1, dns2);
+    // WiFi.config(local_ip, gateway, subnet, dns1, dns2);
 
     WiFi.begin("PLACEHOLDER", "PLACEHOLDER");
     while (WiFi.status() != WL_CONNECTED) {
@@ -50,9 +50,9 @@ double get_percentage()
 void enter_deep_sleep()
 {
     Serial.println("Going to sleep");
-    delay(100);
+    delay(2 * 60 * 1000);
     display.einkOff();
-    esp_sleep_enable_timer_wakeup(20 * 1000 * 1000);
+    esp_sleep_enable_timer_wakeup(28 * 60 * 1000 * 1000);
     esp_deep_sleep_start();
 }
 
@@ -90,11 +90,11 @@ void setup()
     Serial.println("SETUP");
 
     update_display();
+    
+    enter_deep_sleep();
 }
 
 void loop()
 {
-  Serial.println("Starting Loop");
-  update_display();
-  delay(600000);
+  // nixe
 }
