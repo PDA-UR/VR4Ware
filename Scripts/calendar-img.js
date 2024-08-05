@@ -29,7 +29,7 @@ schedule("*/10 * * * *", function() {
     /*******************/
 
     const today = new Date();
-    let day     = today.getDate();
+    let day     = addZero(today.getDate());
     let month   = addZero(today.getMonth() + 1);
     let year    = today.getFullYear();
     let hour    = today.getHours();
