@@ -23,7 +23,7 @@ const bigSpace  = space * 2;
 let yPosition;
 let currentDate;
 
-schedule("*/10 * * * *", function() {
+schedule("*/15 * * * *", function() {
     /*******************/
     /*  Datumsabfrage  */
     /*******************/
@@ -36,7 +36,7 @@ schedule("*/10 * * * *", function() {
     let minute  = today.getMinutes();
 
     currentDate = `${year}-${month}-${day}`;
-    // currentDate = `2024-02-02`; // Zu Testzwecken Datum im Format 'yyyy-mm-dd' überschreiben
+    // currentDate = `2024-07-31`; // Zu Testzwecken Datum im Format 'yyyy-mm-dd' überschreiben
 
     ctx.fillStyle   = 'white';
     ctx.fillRect(0, 0, width, height);
@@ -154,8 +154,21 @@ function createCalendarImage(events, name) {
 
             if (events[date].length > 0) {
                 for (const event of events[date]) {
-                    const eventText = `${addZero(event.start.getHours())}:${addZero(event.start.getMinutes())} – ${addZero(event.end.getHours())}:${addZero(event.end.getMinutes())} Uhr: ${event.summary}`;
-                    ctx.fillText(eventText, 50, yPosition);
+                    let text = event.summary;
+                    if(text.length > 15) {
+                        let line1 = text.substring(0,15);
+                        let line2 = text.substring(15);
+                        if (line2.length > 35) {
+                            line2 = line2.substring(0,30) + "..."
+                        }
+                        let eventText = `${addZero(event.start.getHours())}:${addZero(event.start.getMinutes())}–${addZero(event.end.getHours())}:${addZero(event.end.getMinutes())} Uhr: ${line1}`;
+                        ctx.fillText(eventText, 50, yPosition);
+                        yPosition += space;
+                        ctx.fillText(line2, 50, yPosition);
+                    } else { 
+                        let eventText = `${addZero(event.start.getHours())}:${addZero(event.start.getMinutes())}–${addZero(event.end.getHours())}:${addZero(event.end.getMinutes())} Uhr: ${event.summary}`;
+                        ctx.fillText(eventText, 50, yPosition);
+                    }
                     yPosition += space;
                 } 
             } else {
