@@ -22,8 +22,10 @@ const bigSpace  = 50;
 
 let yPosition;
 let currentDate;
+let upcoming = '';
 let upcomingString1 = '';
 let upcomingString2 = '';
+let nextEvent = '';
 
 schedule("*/15 * * * *", function() {
 /*******************/
@@ -32,9 +34,9 @@ schedule("*/15 * * * *", function() {
 
 const today = new Date();
 
-let upcoming = new Date(today);
-upcoming.setDate(today.getDate() + 14);
-upcoming = upcoming.toISOString().substring(0, 10);
+let upcomingDate = new Date(today);
+upcomingDate.setDate(today.getDate() + 14);
+upcoming = upcomingDate.toISOString().substring(0, 10);
 
 let day    = addZero(today.getDate());
 let month  = addZero(today.getMonth() + 1);
@@ -189,23 +191,27 @@ function createCalendarImage(events, name, iteration) {
     }
 
     if (upcomingString1.length > 0 && iteration == 2) {
-        ctx.font = `${fs_reg} ${font}`;
+        ctx.font = `${fs_large} ${font}`;
         ctx.fillText(upcomingString1, 50, yPosition);
+        ctx.font = `${fs_reg} ${font}`;
         yPosition += space;
         ctx.fillText(upcomingString2, 50, yPosition);
         yPosition += space;
         writeEvent(nextEvent.summary, nextEvent)
     }
 
-    buffer = canvas.toBuffer('image/png');
+    let buffer = canvas.toBuffer('image/png');
     writeFile('web', '/calendar1.png', buffer, function (error) { }) // ioBroker-compliant
     //fs.writeFileSync('calendar1.png', buffer); // Zu Testzwecken lokal ausgeben lassen
 }
 
 function writeEvent(text, event) {
+    let textarr;
+    let line1;
+    let line2;
     if (text.length > 15) {
         if (text.includes(' ')) {
-            textarr = text.split(' ');
+            textarr = text.split(/\s(.*)/s);
             line1 = textarr[0];
             line2 = textarr[1];
         } else {
