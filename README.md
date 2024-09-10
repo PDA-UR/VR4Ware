@@ -26,13 +26,14 @@
 	- Fernsteuerung über M5Stacks, Kommunikation über `MQTT`
 
 ### Todo
-- [ ] Verfügbarkeitsplan Team
-- [ ] Einlesen
+- [x] Verfügbarkeitsplan Team
+- [x] Einlesen
 - [x] [Zeittabelle [300-500h/Person]](https://docs.google.com/spreadsheets/d/1Y5u3R7V6bqwAI3mtcm51P9iCSfqQ9fepIYHyi3u8pyk/edit?gid=0#gid=0)
 - [x] Logbuch von allen Tätigkeiten (Konfig-Änderungen, Passwörter, etc.)
 - [x] Discord
-- [ ] Feineres Anforderungsdoc
+- [x] Feineres Anforderungsdoc
 
 ### Termine
 - Mensa und Meeting: Freitag, 21.06., 12:30 Uhr in OTH-Mensa
 - Einführung in Netzwerk/Technik: Donnerstag, 27.06., 13:00 Uhr im VR4
+- Weitere Termine im GitHub
