@@ -4,8 +4,7 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <FastLED.h>
-// download FastLEd, PubSubClient and Adafruit-Libs via Library Manager
-
+// download FastLED, PubSubClient and Adafruit-Libs via Library Manager (Arduino IDE)
 
 /*
   based on:
@@ -20,6 +19,7 @@ const int BOARD_LED = 2;
 const int SWITCH_PIN = 13; // D7-Pin --> 1
 const int SWITCH_LED = 15; // D8-Pin --> LED
 int switch_val = 0; 
+int prev_switch_val = 0;
 
 // NETWORK VALUES
 const char* ssid = "PLACEHOLDER";
@@ -47,6 +47,10 @@ CRGB leds[NUM_LEDS];
 unsigned long previousMillis = 0; // last time LED was updated
 const long interval = 1000;
 int ledState = 1; // 1 = on, 0 = off
+
+// STUDY - logic
+int is_study = 0;
+int switch_changed = 0;
 
 /* ----- MQTT STUFF ----- */
 void setup_wifi() {
@@ -88,8 +92,11 @@ void reconnect() {
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish("outTopic", "hello world");
-      // ... and resubscribe
-      client.subscribe("inTopic");
+      // ... and resubscribe 
+      client.subscribe("remote_study_lamp");
+      // This topic is used in ioBroker to send on/off msg to the lamp
+      // This topic needs to be overwritten when the lamp is turned on
+      // as the broker is configured to only resend mqtt once their value changed
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -98,6 +105,25 @@ void reconnect() {
       delay(5000);
     }
   }
+}
+
+// callback from subscribed topic
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+  }
+  Serial.println();
+
+  // Turn the study on/off 
+  if ((char)payload[0] == 't') { // MQTT got is "true"/"false"
+    is_study = 1;
+  } else {
+    is_study = 0;
+  }
+
 }
 
 
@@ -113,6 +139,7 @@ void setup() {
 
   setup_wifi();
   client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
   
   // Init LED-Matrix
   // matrix.begin(0x70);  // uncomment for 8x8-Matrix
@@ -190,30 +217,44 @@ void loop() {
   if (!client.connected()) {
       reconnect();
       Serial.println("reconnecting");
-    }
-    client.loop();
+  }
+  client.loop();
 
   switch_val = digitalRead(SWITCH_PIN);
   // Serial.println(switch_val);
 
-  if (switch_val == LOW) { // NO study
+  // Check for a change in the switch
+  if(prev_switch_val != switch_val) {
+    // Switch the study on/off, when the switch is flipped;
+    Serial.print(is_study);
+    is_study = !is_study;
+    Serial.print(" --switched-to--> ");
+    Serial.println(is_study);
+  } 
+  prev_switch_val = switch_val;
+
+  // Turn the lamp on/off
+  if(is_study == 0) { // NO study
 
     if (has_sent == 0) { // do once per click
       has_sent = 1;
       Serial.println("Publish message: off");
       client.publish("study_lamp", "false");
+      client.publish("remote_study_lamp", "false");
       digitalWrite(BOARD_LED, HIGH);
       digitalWrite(SWITCH_LED, LOW); 
       // draw_no_study(); // uncomment for 8x8-Matrix
     } 
     lamp_off();
 
-  } else if (switch_val == HIGH) { // STUDY
+  } 
+  else if (is_study == 1) { // STUDY
     
     if (has_sent == 1) {
       has_sent = 0;
       Serial.println("Publish message: on");
       client.publish("study_lamp", "true");
+      client.publish("remote_study_lamp", "true");
       digitalWrite(BOARD_LED, LOW);
       digitalWrite(SWITCH_LED, HIGH); 
       //draw_study(); // uncomment for 8x8-Matrix
