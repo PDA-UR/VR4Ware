@@ -49,15 +49,17 @@ double get_percentage()
 
 void enter_deep_sleep()
 {
-    Serial.println("Going to sleep");
-    delay(2 * 60 * 1000);
     display.einkOff();
-    esp_sleep_enable_timer_wakeup(28 * 60 * 1000 * 1000);
+    Serial.println("Set Sleep for 2 Hours.");
+    esp_sleep_enable_timer_wakeup(2ULL * 60 * 60 * 1000 * 1000);
     esp_deep_sleep_start();
 }
 
 void update_display()
 {
+    Serial.println("Fetching image...");
+    display.clearDisplay(); // Clear frame buffer of display
+
     HTTPClient http;
     String server_addr = "http://PLACEHOLDER:8093/v1/file/web/calendar1.png";
     display.drawImage(server_addr, display.PNG, 0, 0);
@@ -70,13 +72,14 @@ void update_display()
 
     Serial.println("Updated!");
     Serial.println(get_percentage());
-    Serial.println(display.rtcGetMinute());
 }
 
 void setup()
 {
     Serial.begin(115200);
+    Serial.println(esp_sleep_get_wakeup_cause());
     display.begin();
+    
     display.einkOn();
   
     display.setRotation(3);
@@ -86,7 +89,6 @@ void setup()
     setup_wifi();
     mac_addr = WiFi.macAddress();
 
-    Serial.println(display.rtcGetMinute());
     Serial.println("SETUP");
 
     update_display();
