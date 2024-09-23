@@ -133,7 +133,7 @@ void setup() {
   Serial.println("setting up for [STUDY-LAMP]");
 
   // Init digital pins
-  pinMode(BOARD_LED, OUTPUT);  // BOARD_LED
+  // pinMode(BOARD_LED, OUTPUT);  // BOARD_LED (uncomment to use)
   pinMode(SWITCH_PIN, INPUT_PULLUP); // SWITCH
   pinMode(SWITCH_LED, OUTPUT); // SWITCH_LED
 
@@ -187,8 +187,9 @@ void draw_no_study() {
 }
 
 // LED - STRIP
-void lamp_on() {
-  // blink the LED-strip independently
+
+// optional: blinks the LED-strip (asynch)
+void lamp_blink() {
   // via: https://www.arduino.cc/en/Tutorial/BuiltInExamples/BlinkWithoutDelay
 
   unsigned long currentMillis = millis();
@@ -205,6 +206,11 @@ void lamp_on() {
     }
   }
 
+  FastLED.show();
+}
+
+void lamp_on() {
+  fill_solid(leds, NUM_LEDS, CRGB::Red);
   FastLED.show();
 }
 
@@ -241,7 +247,7 @@ void loop() {
       Serial.println("Publish message: off");
       client.publish("study_lamp", "false");
       client.publish("remote_study_lamp", "false");
-      digitalWrite(BOARD_LED, HIGH);
+      // digitalWrite(BOARD_LED, HIGH); // uncomment to use BoardLED
       digitalWrite(SWITCH_LED, LOW); 
       // draw_no_study(); // uncomment for 8x8-Matrix
     } 
@@ -255,7 +261,7 @@ void loop() {
       Serial.println("Publish message: on");
       client.publish("study_lamp", "true");
       client.publish("remote_study_lamp", "true");
-      digitalWrite(BOARD_LED, LOW);
+      // digitalWrite(BOARD_LED, LOW); //uncomment to use BoardLED
       digitalWrite(SWITCH_LED, HIGH); 
       //draw_study(); // uncomment for 8x8-Matrix
       ledState = 1; // start lamp_on() with on
@@ -265,3 +271,4 @@ void loop() {
   }
 
 }
+
