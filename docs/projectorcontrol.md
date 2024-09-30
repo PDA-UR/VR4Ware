@@ -2,8 +2,6 @@
 
 *Bilder/Diagramme, Schaltpläne, etc. (wo sinnvoll) einfügen*
 
-![Diagramm](images/Switch-Diagramm.png)
-
 <!-- → Verwendung: Was macht das? Wie kann man das benutzen?, … -->
 - Möglichkeit die zwei Projektoren (3 = Boden, 4 = Tafel) an-/auszuschalten
 - in ioBroker-Dashboard über Buttons steuerbar
