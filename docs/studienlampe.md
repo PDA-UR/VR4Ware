@@ -20,7 +20,7 @@ TODO: BILD
 - LED-Strip (WS2812B)
   - GND, 5V, DIN
   - mit `<FastLED.h>`
-- funktionierendes Skript: `study_lamp_1.ino` (LINK!!)
+- funktionierendes Skript: [`study_lamp_1.ino`](https://github.com/thiilo/VR4Ware/blob/main/Scripts/studylamp/study_lamp.ino) (LINK!!)
 
 ![A circuit diagram for the study lamp](images/study_lamp_circuit.png)
 
