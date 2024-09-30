@@ -6,6 +6,10 @@
 #include <FastLED.h>
 // download FastLED, PubSubClient and Adafruit-Libs via Library Manager (Arduino IDE)
 
+// NOTE: this script includes additional functionality 
+  // of using a 8x8-LED Matrix to display 2 simple smileys
+  // and some more comments
+
 /*
   based on:
   https://www.arduino.cc/en/Tutorial/BuiltInExamples/Blink and
