@@ -17,8 +17,8 @@ TOPICS
 ### Wartung und Troubleshooting
 <!-- → Wie kommt man ran?, Was kann man einfach ändern?, Bugs, die uns begegnet sind und wie sie gelöst wurden, … -->
 - 2 Skripts für Button und Buzzer. die über MQTT kommunizieren
-- Unter ['scream.ino'](https://github.com/thiilo/VR4Ware/blob/main/Scripts/scream/scream.ino) kann man den Klingelton anpassen
-- Unter ['buttonscript.ino'](https://github.com/thiilo/VR4Ware/blob/main/Scripts/buttonscript/buttonscript.ino) wird der Button konfiguriert und ausgelesen
+- Unter ['scream.ino'](https://github.com/thiilo/VR4Ware/blob/main/scream.ino) kann man den Klingelton anpassen
+- Unter ['buttonscript.ino'](https://github.com/thiilo/VR4Ware/blob/main/buttonscript.ino) wird der Button konfiguriert und ausgelesen
 ---
 
 #### Anmerkungen
