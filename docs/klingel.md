@@ -12,6 +12,7 @@ TODO: BILD
 ### Aufbau
 <!-- → z.B.: Verkabelung, Infrastruktur, Ort,  -->
 - 2x WEMOS D1 Mini, 1x WEMOS Buzzer Shield, 1x WEMOS Button Shield, 1x LiPo Akku
+- Topics: mqtt.0.doorbell
 TOPICS
 
 ### Wartung und Troubleshooting
