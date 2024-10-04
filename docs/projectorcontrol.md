@@ -5,11 +5,11 @@
 <!-- → Verwendung: Was macht das? Wie kann man das benutzen?, … -->
 - Möglichkeit die zwei Projektoren (3 = Boden, 4 = Tafel) an-/auszuschalten
 - in ioBroker-Dashboard über Buttons steuerbar
-- Status wird über ein Script in ioBroker ausgelesen und aktualisiert
+- Status wird über ein Script in ioBroker alle paar Minuten ausgelesen und aktualisiert
 
 ### Aufbau
 <!-- → z.B.: Verkabelung, Infrastruktur, Ort,  -->
-- Raspberry Pi über Serial-Verbindung an Beamer gehängt (1 pro Beamer)
+- [Raspberry Pi](https://www.raspberrypi.com/products/raspberry-pi-3-model-b/) über Serial-Verbindung an Beamer gehängt (1 pro Beamer)
 - Script mit [paho-mqtt](https://pypi.org/project/paho-mqtt/) und [pySerial](https://pyserial.readthedocs.io/en/latest/index.html)
   - empfängt und sendet MQTT Nachrichten über Power on/off-Befehle und Statusabfragen
   - RS232-Befehle an Beamer über Serial-Schnittstelle mithilfe von HexCodes
@@ -23,7 +23,6 @@
 
 - Status von Beamer kann nicht ausgelesen werden, wenn diese gerade hoch-/runterfährt
   - Deswegen ist im Skript ein 30sec sleep eingebaut, bevor die Serielle Schnittstelle wieder geschlossen wird
-- Probleme mit Beamer 4 (Tafel) / Raspi 114
 - Erst Serial anschließen, dann Strom — ansonsten ist erst beim Booten kein Gerät per Serial verbunden und Skript schmeißt einen Fehler.
 
 #### Zugang über ssh
@@ -63,9 +62,10 @@
 #### Anmerkungen
 <!-- → Zusätzlicher Punkt für Notizen/Anmerkungen, etc. (wenn nichts wichtiges, dann weglassen) -->
 
-- Anschluss der Pis an die Projektoren geht nur mit Serial-Kabel, Adapter direkt an Beamer klappt nicht 
-- Installation eines Hardware [Watchdogs](https://diode.io/blog/running-forever-with-the-raspberry-pi-hardware-watchdog) auf 114 
-  - auf 113 hats nicht geklappt
+- Anschluss der Pi's an die Projektoren geht nur mit Serial-Kabel, Adapter direkt an Beamer klappt nicht 
+- Installation eines Hardware [Watchdogs](https://diode.io/blog/running-forever-with-the-raspberry-pi-hardware-watchdog) um den Raspi neu zu starten, wenn dieser ausgeht
+- Bei Raspi3 gab es Probleme mit den Autorun des Skripts, da dieses Probleme hatte sich mit dem MQTT-Broker zu verbinden, was das Skript beendet hat:
+  - Ändern von `client.loop_forever()` auf `client.loop_forever(retry_first_connection=True)` scheint das Problem zu lösen
 
 ##### Einen Raspi einrichten
 - Debian 12 Installieren (Bookworm) und Raspi einrichten
@@ -74,10 +74,14 @@
   - `sudo apt install python3-paho-mqtt` (via: sudo apt search paho-mqtt)
   - Autorun einrichten ([Anleitung](https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/))
   - in rc.local: `sudo python3 /home/projectorcontrol/Dokumente/projector-control-3.py &`
+- SSH einrichten:
+  - im Raspi: Einstellungen → Raspberry Pi Konfiguration: Schnittstellen → SSH an
+  - im Router die IP-Adresse statisch setzten: Netzwerk → DHCP und DNS → Statische Einträge
 
 
 #### Ressourcen 
 <!-- → Verwendete Tutorials, Materialien, Quellenangaben, etc. (wenn nichts wichtiges, dann weglassen) -->
+- Raspberry Pi 3: https://www.raspberrypi.com/products/raspberry-pi-3-model-b/
 - paho-mqtt: https://pypi.org/project/paho-mqtt/
 - pySerial: https://pyserial.readthedocs.io/en/latest/index.html
 - ViewSonic RS232 protocol: https://viewsonicvsa.freshdesk.com/support/solutions/articles/43000470420-viewsonic-projector-rs232-protocol
@@ -86,4 +90,5 @@
 - CoolTerm: https://coolterm.en.lo4d.com/windows, https://freeware.the-meiers.org/
 - Autorun: https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/
 - Hardware Watchdog: https://pimylifeup.com/raspberry-pi-watchdog/, https://diode.io/blog/running-forever-with-the-raspberry-pi-hardware-watchdog
+- loop_forever(): https://stackoverflow.com/a/78868318
 - 

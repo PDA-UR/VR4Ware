@@ -8,6 +8,7 @@ TODO: BILD
 - Lampe, die anzeigt, ob eine Studie ist
 - Lampe kann vor Ort über einen Schalter oder in ioBroker über eine Knopf an-/aus geschaltet werden
 - Status wird in ioBroker angezeigt
+- Nutzung eines Wemos [D1 mini](https://www.wemos.cc/en/latest/d1/d1_mini.html) für Logik und Kommunikation
 
 ### Aufbau
 <!-- → z.B.: Verkabelung, Infrastruktur, Ort,  -->
@@ -54,6 +55,7 @@ TODO: BILD
 
 #### Ressourcen 
 <!-- → Verwendete Tutorials, Materialien, Quellenangaben, etc. (wenn nichts wichtiges, dann weglassen) -->
+- Wemos D1 mini: https://www.wemos.cc/en/latest/d1/d1_mini.html
 - FastLED.h : https://github.com/FastLED/FastLED
 - Produktbeschreibung Wipp-Schalter: https://www.pollin.de/p/marquardt-kontroll-wippenschalter-1656-1601-420513
 - pubsubclient: https://pubsubclient.knolleary.net/
