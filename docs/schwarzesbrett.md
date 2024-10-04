@@ -22,7 +22,7 @@ TODO: BILD
 - Skript in ioBroker. Funktionalität ist etwas umständlich zu ändern.
 - Gelöschte Nachrichten werden in ioBroker in einer JSON-Datei archiviert (*./files/0_userdata.0/schwarzes-brett/archive.json*)
 
-##### Objekte in ioBroker
+#### Objekte in ioBroker
 | OID | Nutzung  |
 | --------------| ---------------------------------------------- |
 | *0_userdata.0.msg.HTMLTable*       | generierte Admin Tabelle für vis               |
@@ -37,8 +37,8 @@ TODO: BILD
 #### Anmerkungen
 <!-- → Zusätzlicher Punkt für Notizen/Anmerkungen, etc. (wenn nichts wichtiges, dann weglassen) -->
 - Styling der Tabelle ging nur inline, weil es in einem Objekt gespeichert wird, das nur Strings speichern kann. Das Objekt wird danach in einem HTML-Widget in vis dargestellt
-- Click-Events der Checkboxen gingen nur inline, weil ansonsten keine Events gefeuert werden (da Skript nicht direkt in vis läuft)
-  - In vis ist der Zugang zu den üblichen Skript-Funktionen etwas umständlich
+- Click-Events der Checkboxen gingen nur inline, weil ansonsten keine Events gefeuert werden (da Skript nicht direkt in vis läuft) (siehe: TODO->link zu ioBroker.md#Zugriff von vis auf JS Funktionen)
+- In vis ist der Zugang zu den üblichen Skript-Funktionen etwas umständlich
 - Man kann die gleiche Nachricht nicht zweimal schicken, da ioBroker auf die Änderung des Objektes lauscht
 
 #### Ressourcen 

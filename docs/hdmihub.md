@@ -34,7 +34,7 @@
   - `nc 192.168.2.13 4001` // `ncat 192.168.2.13 4001` (windows)
   - Befehle (Punkt nicht vergessen!): 
     - `Status.`
-    - `[I]V[O].` (z.B.: 5V4.)
+    - `[In]V[Out].` (z.B.: 5V4.)
     - TODO: Link zu Manual
 
 ---
@@ -46,10 +46,13 @@
   - TODO: BILD
 - Um den aktuellen Status der Matrix widerzuspiegeln läuft auf ioBroker ein Skript, dass alle 5min (Arbeitstag) den Status von der Matrix abfragt
 - TCP Anfragen werden direkt im Script ausgeführt, können aber auch über Node-Red getätigt werden
+- Die HDMI Kabelnummern und Inputnummern der Matrix stimmern überein, also z.B.: HDMI 3 auf Input 3 der Matrix
+  - ABER: Input 5 der Matrix funktioniert nicht, deswegen wurde das HDMI Kabel 5 auf Input 1 verlegt. Dies wird im Script matrix-switcher.js in ioBroker abgefangen. Hier wird die 5 (die sonst überall drin steht) für den eigentliche Matrix Command mit einer 1  ausgetauscht
 
 #### Ressourcen 
 <!-- → Verwendete Tutorials, Materialien, Quellenangaben, etc. (wenn nichts wichtiges, dann weglassen) -->
 - netcat: https://nmap.org/ncat/
 - gui: http://192.168.2.13/
 - HDMI Matrix Produktbeschreibung: https://www.purelink.de/marketing/datenblaetter/PureTools_Datasheets/DE/PT-MA-HD88UHD_Datasheet_DE.pdf
+- Data Flow Visualisierung für ioBroker vis: https://forum.iobroker.net/topic/43770/data-flow-animation-html-widgets
 - 
