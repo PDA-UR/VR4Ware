@@ -21,7 +21,7 @@ unsigned long lastMsg = 0;
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
 
-const int pirPin = 16; // Infrarot-Sensor (D8)
+const int pirPin = 16; // Infrarot-Sensor (D0)
 int buzzer = 14; // Buzzer (D5)
 const int LED = 4; // LEDs (D2)
 const int NUM_LEDS = 8;
