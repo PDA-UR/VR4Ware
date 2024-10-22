@@ -43,6 +43,7 @@ Das Gehäuse des Sensorkits ist nur zusammengesteckt, was Änderungen und Repara
 
 ##### Klingelwarnsystem und Bewegungssensor
 > Die Klingel braucht nach dem Anschalten eine kurze Weile (<60s), um sich mit dem Router zu verbinden. In dieser Zeit sendet sie noch keine Signale an IOBroker, weswegen das Klingelwarnsystem noch nicht reagiert.
+> 
 > Das Klingelwarnsystem fragt im `loop()` den Status der Klingel ab, was unter Umständen zu leicht asynchronem Blinken oder Piepen führen kann.
 - Falls nur die LEDs blinken:
   - Prüfen, ob die Studienlampe an ist
