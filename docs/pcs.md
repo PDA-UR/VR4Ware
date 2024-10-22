@@ -10,6 +10,7 @@ Im Dashboard werden verschiedene statische Daten der existierenden Computer ange
 ### Aufbau
 <!-- → z.B.: Verkabelung, Infrastruktur, Ort,  -->
 Die unveränderlichen Metadaten wurden händisch gesammelt und sind in statischen JSON-Dateien in ioBroker hinterlegt. Die Daten sind im Dashboard über Buttons zugänglich.
+Daten sind aktuell nur für zwei PCs vorhanden, da die anderen bei der Datenakquise genutzt wurden. 
 <!-- - Statische JSON-Dateien in ioBroker, mit den statischen Daten
 - Visualisierung in ioBroker
 - Script auf den PCs, dass per SNMP Infos an ioBroker schickt (TODO) -->
