@@ -3,27 +3,36 @@
 
 ## Umsetzung
 <!-- Infos über Visualisierungen und Skripte -->
-- Visualisierung mit [vis-2](https://github.com/ioBroker/ioBroker.vis-2)
-- Orientierung am Konzept des [Digitalen Zwillings](https://de.wikipedia.org/wiki/Digitaler_Zwilling) (?? bessere Quelle als Wikipedia?)
-  - Möglichst realistischen digitale Repräsentation des echten VR4 mithilfe eines abstrahierten Raum-Plans
+Die Visualisierung der verschiedenen Bestandteile wurde mit [vis-2](https://github.com/ioBroker/ioBroker.vis-2) umgesetzt. Dabei wurde sich am Konzept des [Digitalen Zwillings](https://de.wikipedia.org/wiki/Digitaler_Zwilling) orientiert, um die Darstellungen möglichst intuitiv zu halten.
+Durch einen abstrahierten Raum-Plans des echten VR4 wurde eine möglichst realistische digitale Repräsentation erzielt. Die soll zu einer leichteren Lokalisierung führen, da sich Elemente an der richtigen Stelle befinden. Zusätzlich wurden Elemente möglichst einfach gehalten, damit die Interaktion intuitiv ist.
+  <!-- - Möglichst realistischen digitale Repräsentation des echten VR4 mithilfe eines abstrahierten Raum-Plans
   - Leichteres Verständnis wie etwas funktioniert und wo im Raum es sich befindet
-  - z.B.: Visualisierung der Beziehung zwischen dem Matrix-Switch (LINK) und den Projektoren (LINK) über ein Data-Flow-Diagramm. Damit sieht man direkt die aktuell genutzten HDMI-Verbindungen und welche Beamer an-/aus geschaltet sind  
+  - z.B.: Visualisierung der Beziehung zwischen dem Matrix-Switch (LINK) und den Projektoren (LINK) über ein Data-Flow-Diagramm. Damit sieht man direkt die aktuell genutzten HDMI-Verbindungen und welche Beamer an-/aus geschaltet sind   -->
 
-- Nutzung des [MQTT](https://de.wikipedia.org/wiki/MQTT)-Protokolls zum senden und empfangen von der meisten Daten von verschiedenen Mikrocontrollern (Wemos d1 mini, C02-Ampel, RaspberryPi)
+Verschiedene existierende Adapter und Protokolle wurden verwendet um Daten zu senden und zu empfangen.
+So etwa das [MQTT](https://de.wikipedia.org/wiki/MQTT)-Protokoll das die Kommunikation mit verschiedenen Mikrocontrollern (Wemos d1 mini, C02-Ampel, RaspberryPi) ermöglicht. Durch einen existierenden [MQTT-Adapter](https://github.com/ioBroker/ioBroker.mqtt) können Nachrichten an und von ioBroker gesendet und direkt in vis eingebunden werden.
+Die Mikrocontroller selber horchen auf ihr spezifisches Topic und verarbeiten die empfangen Nachrichten, wenn nötig.
+
+Zusätzlich wird [SNMP](https://de.wikipedia.org/wiki/Simple_Network_Management_Protocol) über den [SNMP-Adapter](https://github.com/iobroker-community-adapters/ioBroker.snmp) für Kommunikation zwischen existierenden Geräten genutzt.
+
+<!-- - Nutzung des [MQTT](https://de.wikipedia.org/wiki/MQTT)-Protokolls zum senden und empfangen von der meisten Daten von verschiedenen Mikrocontrollern (Wemos d1 mini, C02-Ampel, RaspberryPi)
   - via: [MQTT-Adapter](https://github.com/ioBroker/ioBroker.mqtt)
   - Nachrichten werden von ioBroker gelesen und können direkt in vis eingebunden werden
   - Nachrichten können über vis in das MQTT-Objekt geschrieben und dann direkt von ioBroker geschickt werden
-  - Die Microcontroller horchen auf ihr spezifisches Topic und verarbeiten die empfangen Nachrichten
+  - Die Mikrocontroller horchen auf ihr spezifisches Topic und verarbeiten die empfangen Nachrichten
 - Nutzung von [SNMP](https://de.wikipedia.org/wiki/Simple_Network_Management_Protocol) für Kommunikation zwischen existierenden Geräten (Drucker(LINK), PCs(LINK))
-  - via: [SNMP-Adapter](https://github.com/iobroker-community-adapters/ioBroker.snmp)
+  - via: [SNMP-Adapter](https://github.com/iobroker-community-adapters/ioBroker.snmp) -->
 
 
-- Nutzung von Skripten für Automatisierungen oder notwendige Anpassungen von Daten oder Visualisierungen
+Für verschiedenen Automatisierungen oder Anpassungen von Daten oder Visualisierungen. Und wenn möglich wurden andere existierende Adapter genutzt. Etwa das Auslesen des Busfahrplans mit dem [Fahrplan Adapter](https://github.com/gaudes/iobroker.fahrplan/)
+<!-- - Nutzung von Skripten für Automatisierungen oder notwendige Anpassungen von Daten oder Visualisierungen
 - Nutzung von existierenden Adaptern wenn möglich:
-  - z.B.: Auslesen des Busfahrplans via [Fahrplan Adapter](https://github.com/gaudes/iobroker.fahrplan/)
+  - z.B.: Auslesen des Busfahrplans via [Fahrplan Adapter](https://github.com/gaudes/iobroker.fahrplan/) -->
 
 ## Cheat sheet
 <!-- Wichtige Funktionalitäten, Tips und Tricks -->
+Für einen einfacheren Einstieg werden hier kurz wichtige Funktionsweise ausgeführt:
+
 ### vis(2)
 - Einbindung von Werten aus dem Object-Tab:
   - `{object.value.id}`
