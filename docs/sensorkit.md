@@ -14,7 +14,11 @@ Für normale Raumnutzer sind nur die Farbe der CO2-Ampel als Lüftungsindikator 
 
 ### Aufbau
 <!-- → z.B.: Verkabelung, Infrastruktur, Ort,  -->
+
+<!-- Bilder dann nebeneinander!  -->
 ![](images/SKInnen.jpg)
+![](images/SKSchaltplan.jpg)
+
 Im 3D-gedruckten Gehäuse befinden sich ein Wemos D1 Mini, ein PIR-Bewegungssensor, ein Wemos Buzzer Shield, ein LED-Streifen sowie die Watterott CO2-Ampel. 
 Betrieben werden sie durch ein USB-C-Kabel (CO2-Ampel) und ein micro-USB-Kabel (D1 Mini). 
 Zum Auslesen des Bewegungssensors und Kommunikation der Klingel wurden entsprechende Sensoren und Outputs an den D1 Mini verlötet.
