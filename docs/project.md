@@ -1,6 +1,10 @@
 # VR4Ware
 > Leonie Schrod, Thilo Hohl, Tien Julien Ho
 
+## Einleitung
+- Zusammenfassung von Aufgaben, Ziele, Probleme, Erkenntnisse
+
+## Aufgabenstellung
 <!-- Beschreibung Aufgabe -->
 - Erstellung eines IoT-Hubs für das VR4-Labor
 - die diverse Nutzungs- und Anwendungsfelder (3 unterschiedliche Räume) zusammenbringen
@@ -10,7 +14,7 @@
 - Priorisierung von Wartbarkeit
 - Implementierung von sinnvollen Features, die die Nutzung des Labors unterstützt und erleichtert.
 
-## Projektablauf
+## Projektverlauf
 - Einarbeitung in das Thema
 - Anforderungsanalyse
 - Bestandsaufnahme vorhandener Systeme und Geräte
@@ -19,7 +23,6 @@
 -  Dokumentation
    -  formlose Dokumentation während der Implementierung um wichtige Infos nicht zu vergessen und Troubleshooting aktiv aufzuschreiben
    -  danach Aufarbeitung
-
 
 ### Projektmanagement
 - Agile Entwicklung mit wöchentliche Meetings
@@ -40,3 +43,25 @@
 - Besprechung mit Raphael, Jakob
 - kurze, formlose Besprechungen mit Studis, die den Raum auch aktiv genutzt haben
 
+
+## Architektur und Implementierung
+### Hardware
+- Verwendete Hardware (Boards, Sensoren)
+- Programmierung/Nutzung der Hardware
+- Designentscheidungen, Probleme, Lösungen
+- Einbinden Doku für Wiki 
+    - nur wichtigste Infos
+    - etwas mehr auf Probleme/Lösungen während Implementierung eingehen
+
+### ioBroker
+- warum?
+- Funktionsweise
+- Probleme und 
+- Lösungen
+
+### Kommunikation
+- Kommunikation zw. ioBroker und Hardware (MQTT/SNMP-Adapter)
+
+## Diskussion
+- Erfahrungsbericht
+- Lehren aus Projekt
