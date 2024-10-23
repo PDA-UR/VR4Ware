@@ -15,6 +15,8 @@ Die Mikrocontroller selber horchen auf ihr spezifisches Topic und verarbeiten di
 
 Zusätzlich wird [SNMP](https://de.wikipedia.org/wiki/Simple_Network_Management_Protocol) über den [SNMP-Adapter](https://github.com/iobroker-community-adapters/ioBroker.snmp) für Kommunikation zwischen existierenden Geräten genutzt.
 
+Für eine einfache Erstellung von Graphen werden [eCharts](https://github.com/ioBroker/ioBroker.echarts) verwendet. Dafür müssen für Objekte die History angestellt werden. (Siehe etwas [hier](https://www.smarthome-tricks.de/software-iobroker/iobroker-diagramme-mit-dem-e-charts-adapter-erstellen/))
+
 <!-- - Nutzung des [MQTT](https://de.wikipedia.org/wiki/MQTT)-Protokolls zum senden und empfangen von der meisten Daten von verschiedenen Mikrocontrollern (Wemos d1 mini, C02-Ampel, RaspberryPi)
   - via: [MQTT-Adapter](https://github.com/ioBroker/ioBroker.mqtt)
   - Nachrichten werden von ioBroker gelesen und können direkt in vis eingebunden werden
@@ -63,7 +65,7 @@ Für einen einfacheren Einstieg werden hier kurz wichtige Funktionsweise ausgef�
   - [Quelle](https://forum.iobroker.net/topic/62756/json-parse-array-aus-datenpunkt/7)
 
 ##### Zugriff von vis auf JS Funktionen
-- von vis aus kann nicht direkt auf die JS-Script Funktionen zugegriffen werden, da diese im Browser und nicht auf dem Server laufen
+- von vis aus kann nicht direkt auf die ioBroker JS-Script Funktionen zugegriffen werden, da diese im Browser und nicht auf dem Server laufen
   - Umweg über Keyword: `vis.[function]`
   - z.B.: Wert für Objekt setzten: `vis.setValue("object.value.id, value);`
   - Siehe auch: [1](https://forum.iobroker.net/topic/35582/html-checkbox-zugriff-auf-state/39) und [2](https://forum.iobroker.net/topic/63323/%C3%BCber-html-widget-mit-toggle-button-datenpunkt-wert-%C3%A4ndern) und [3](https://forum.iobroker.net/topic/7395/zugriff-auf-objekt-in-script/7)

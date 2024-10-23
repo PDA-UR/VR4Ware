@@ -5,6 +5,8 @@ TODO: BILD
 
 <!-- → Verwendung: Was macht das? Wie kann man das benutzen?, … -->
 Drei Bewegungssensoren würden in den drei Räumen installiert um anonymisiert Informationen zur aktuellen Raumbelegung in ioBroker zu sammeln und darzustellen.
+
+Bewegungen werden im Dashboard über eine grüne Einfärbung des betroffenen Raumes dargestellt.
 <!-- 
 - Sensor um Bewegungen im Labor in ioBroker widerzuspiegeln
 - Keine Aufnahme personenbezogener Daten
@@ -30,6 +32,8 @@ Für ein besseres logging und spätere Auswertung, bzw. Darstellung mit eCharts 
 #### Anmerkungen
 <!-- → Zusätzlicher Punkt für Notizen/Anmerkungen, etc. (wenn nichts wichtiges, dann weglassen) -->
 Bei der Implementierung wurde dieses [Tutorials](https://www.makerguides.com/hc-sr501-arduino-tutorial/) als Startpunkt genutzt.
+
+Bei dem Bewegungssensor im Studio werden oft False Positives (?) erkannt. Dies hängt vermutlich mit dem OptiTrack-System zusammen, da "Bewegungen" auch Nachts und nur in diesem Raum angezeigt werden.
 
 #### Ressourcen 
 <!-- → Verwendete Tutorials, Materialien, Quellenangaben, etc. (wenn nichts wichtiges, dann weglassen) -->
