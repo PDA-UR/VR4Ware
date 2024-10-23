@@ -8,10 +8,10 @@ Zusätzlich wurden einige Notizen gesammelt, um den Einstieg zu erleichtern.
   - Offizielles [Repo](https://github.com/esp8266/Arduino?tab=readme-ov-file) mit Anleitung
   - [Setup-Guide](https://chewett.co.uk/blog/937/configuring-wemos-d1-mini-pro-esp8266-arduino-ide/)
   - [Pinouts](https://chewett.co.uk/blog/1066/pin-numbering-for-wemos-d1-mini-esp8266/) 
-- CO2-Ampel alternative Firmware:
+<!-- - CO2-Ampel alternative Firmware:
   - TODO
 - Inkplate
-  - TODO
+  - TODO -->
 
 ## Notizen
 - `const int PIN_NUM = x;` um Pinnummern zu definieren
