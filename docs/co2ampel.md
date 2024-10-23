@@ -39,6 +39,7 @@ Die aktuell verwendete Firmware ist [hier](https://github.com/thiilo/VR4Ware/blo
 Die Änderungen in `Config.h` sind:
   - `#define INTERVAL_DARK 3`
   - `#define LIGHT_INTERVAL 150`
+> Daraus ergibt sich 1. der Intervall für die Abfrage der drei Luftsensoren (alle 3 Sekunden) und der Lichtmessung (alle 150s). Beim Messen der Lichtstärke wird momentär die eigene LED ausgeschaltet, um Interferenz zu vermeiden. Das könnte für Betrachter wie ein Flackern wirken, ist aber so beabsichtigt. 
 
 Um die Firmware neu zu kompililieren können folgende Schritte gefolgt werden:
 - Der [Anleitung](https://github.com/mariolukas/Watterott-CO2-Ampel-Plus-Firmware#eigene-ampel-version-aus-den-quellen-kompilieren) folgen um Arduino IDE aufzusetzten
