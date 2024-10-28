@@ -1,8 +1,14 @@
 #include <Wire.h>
+#include <Adafruit_GFX.h>
+#include "Adafruit_LEDBackpack.h"
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <FastLED.h>
-// download FastLED and PubSubClient via Library Manager (Arduino IDE)
+// download FastLED, PubSubClient and Adafruit-Libs via Library Manager (Arduino IDE)
+
+// NOTE: this script includes additional functionality 
+  // of using a 8x8-LED Matrix to display 2 simple smileys
+  // and some more comments
 
 /*
   based on:
@@ -12,7 +18,9 @@
 
 // PINS
 const int BOARD_LED = 2;
-const int SWITCH_PIN = 13; // D7-Pin --> 1 (Switch)
+// const int SWITCH_PIN = 0; // D3-Pin
+// const int SWITCH_LED = 4; // D2-Pin -> D2 is used for matrix
+const int SWITCH_PIN = 13; // D7-Pin --> 1
 const int SWITCH_LED = 15; // D8-Pin --> LED
 int switch_val = 0; 
 int prev_switch_val = 0;
@@ -33,8 +41,11 @@ unsigned long lastMsg = 0;
 char msg[MSG_BUFFER_SIZE];
 int value = 0;
 
+// LED - Matrix
+Adafruit_8x8matrix matrix = Adafruit_8x8matrix();
+
 // LED - STRIP
-const int NUM_LEDS = 48; // Amount of LED in strip
+const int NUM_LEDS = 48;
 const int DATA_PIN = 14; // D5 --> DIN
 CRGB leds[NUM_LEDS];
 unsigned long previousMillis = 0; // last time LED was updated
@@ -81,6 +92,7 @@ void reconnect() {
     clientId += String(random(0xffff), HEX);
     // Attempt to connect
     if (client.connect(clientId.c_str(), "PLACEHOLDER", "PLACEHOLDER")) {
+    // if (client.connect(clientId.c_str(), mqtt_username, mqtt_password)) {
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish("outTopic", "hello world");
@@ -110,7 +122,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println();
 
   // Turn the study on/off 
-  if ((char)payload[0] == 't') { // MQTT got is "true"/"false" (checks first char)
+  if ((char)payload[0] == 't') { // MQTT got is "true"/"false"
     is_study = 1;
   } else {
     is_study = 0;
@@ -132,15 +144,56 @@ void setup() {
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
+  
+  // Init LED-Matrix
+  // matrix.begin(0x70);  // uncomment for 8x8-Matrix
 
   // Init LED-Strip
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
+
 }
 
-/* ----- LED - STRIP - SETUP ----- */
+// LED "icons"
+static const uint8_t PROGMEM
+  smile_bmp[] =
+  { B00111100,
+    B01000010,
+    B10100101,
+    B10000001,
+    B10100101,
+    B10011001,
+    B01000010,
+    B00111100 },
+  frown_bmp[] =
+  { B00111100,
+    B01000010,
+    B10100101,
+    B10000001,
+    B10011001,
+    B10100101,
+    B01000010,
+    B00111100 };
 
+void draw_study() {
+  matrix.clear();
+  matrix.drawBitmap(0, 0, frown_bmp, 8, 8, LED_ON);
+  matrix.writeDisplay();
+  delay(500);
+  Serial.println("[DRAW] study");
+}
+
+void draw_no_study() {
+  matrix.clear();
+  matrix.drawBitmap(0, 0, smile_bmp, 8, 8, LED_ON);
+  matrix.writeDisplay();
+  delay(500);
+  Serial.println("[DRAW] no_study");
+}
+
+// LED - STRIP
+
+// optional: blinks the LED-strip (asynch)
 void lamp_blink() {
-  // optional: blinks the LED-strip (asynch)
   // via: https://www.arduino.cc/en/Tutorial/BuiltInExamples/BlinkWithoutDelay
 
   unsigned long currentMillis = millis();
@@ -177,14 +230,14 @@ void loop() {
   }
   client.loop();
 
-  // Read the input coming in from the physical switch
   switch_val = digitalRead(SWITCH_PIN);
+  // Serial.println(switch_val);
 
   // Check for a change in the switch
   if(prev_switch_val != switch_val) {
     // Switch the study on/off, when the switch is flipped;
-    is_study = !is_study;
     Serial.print(is_study);
+    is_study = !is_study;
     Serial.print(" --switched-to--> ");
     Serial.println(is_study);
   } 
@@ -200,6 +253,7 @@ void loop() {
       client.publish("remote_study_lamp", "false");
       // digitalWrite(BOARD_LED, HIGH); // uncomment to use BoardLED
       digitalWrite(SWITCH_LED, LOW); 
+      // draw_no_study(); // uncomment for 8x8-Matrix
     } 
     lamp_off();
 
@@ -213,6 +267,7 @@ void loop() {
       client.publish("remote_study_lamp", "true");
       // digitalWrite(BOARD_LED, LOW); //uncomment to use BoardLED
       digitalWrite(SWITCH_LED, HIGH); 
+      //draw_study(); // uncomment for 8x8-Matrix
       ledState = 1; // start lamp_on() with on
     }
     lamp_on();

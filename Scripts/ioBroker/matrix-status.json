@@ -1,0 +1,80 @@
+/* -- do not edit following lines - START --
+{
+  "expert": true,
+  "debug": false,
+  "verbose": false
+}
+-- do not edit previous lines - END --*/
+const checkID = "0_userdata.0.matrix.checkStatus";
+const in3ID = "0_userdata.0.matrix.InputFor3"; // Beamer 3 --> hdmi: 3, 4, 5
+const in4ID = "0_userdata.0.matrix.InputFor4"; 
+
+
+var net = require('net');
+var i = 0;
+function sendMessage(host, port, message, out) {
+    var client = net.connect({host:host, port: port}, function () {
+    // 'connect' listener
+    console.log('connected to server!');
+    client.write(""); // "Please Input Your Command:"-Zeile abfangen 
+    client.write(message);
+    });
+    client.on('data', function (data) {
+        if (i >= 2) {
+            client.end();
+        }
+        parseResult(data.toString(), out);
+        console.log(data.toString() + " --- " + out);
+        i++;
+        // log("i " + i);
+        //client.end();
+    });
+    client.on('end', function () {
+        console.log('disconnected from server');
+        i = 0;
+    });
+    client.on('error', function (error) {
+        console.error('error: ' + error);
+        client.end();
+    });
+}
+
+
+function parseResult(result, out) {
+    let currentIn = null;
+    if (result.includes("AV")) {
+        currentIn = /[1,2,3,4,5,6,7,8]/g.exec(result)[0];
+        log("IN: " + currentIn + " --- out: " + out);
+
+        if (out == 3) {
+            setState(in3ID, currentIn);
+        } else if (out == 4) {
+            setState(in4ID, currentIn);
+        }
+    }
+}
+
+// currently checks once every time the checkStatus-Object gets changed (16.09.24)
+on(checkID, function() {
+    sendMessage("192.168.2.13", 4001, "Status4.", 4);
+    setTimeout(function() {
+        // wait, otherwise command gets swallowed
+        sendMessage("192.168.2.13", 4001, "Status3.", 3);
+    }, 2000);
+}); 
+
+
+// schedule a status check
+schedule('{"time":{"start":"06:00","end":"22:00","mode":"hours","interval":5},"period":{"days":1,"dows":"[1, 2, 3, 4, 5]"}}', function() {
+    sendMessage("192.168.2.13", 4001, "Status4.", 4);
+    setTimeout(function() {
+        // wait, otherwise command gets swallowed
+        sendMessage("192.168.2.13", 4001, "Status3.", 3);
+    }, 2000);
+})
+
+
+
+
+// AV: 04->
+// 03

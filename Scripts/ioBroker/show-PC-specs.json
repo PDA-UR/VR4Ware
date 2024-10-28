@@ -1,0 +1,83 @@
+/* -- do not edit following lines - START --
+{
+  "expert": true,
+  "debug": false,
+  "verbose": false
+}
+-- do not edit previous lines - END --*/
+const infoField = "0_userdata.0.PCs.PC_Info";
+
+const testSpecs = "0_userdata.0.PCs.VR2";
+
+const pc1 = "0_userdata.0.PCs.PC1";
+const pc2 = "0_userdata.0.PCs.PC2";
+const pc3 = "0_userdata.0.PCs.PC3";
+const pc4 = "0_userdata.0.PCs.PC4";
+
+const btns = [pc1, pc2, pc3, pc4];
+
+// Parse the info from the file into a readable format
+function parseInfo(file) {
+    // get from file: e.g. 0_userdata.0/pc-specs/PC3.json
+    // log(file);
+
+    const infos = JSON.parse(file);
+
+    //  TODO: create the visual
+    let text = "";
+    for (var key in infos) {
+        //log(key + ": " + infos[key]);
+        text += `<b>${key}:</b> ${infos[key]}<br>`;
+    }
+    setState(infoField, text);   
+}
+
+// Turn all buttons off that were turned on, except for the current one
+function resetOthers(oid) {
+    btns.forEach(btn => {
+        if (btn == oid) return;
+        setState(btn, false);
+    })
+}
+
+// Catch click events on the buttons
+on(btns, function(dp) {
+    const oID = dp.id;
+    const show = getState(oID).val;
+    // log(dp.id + " " + show);
+
+    if (!getState(pc1).val && !getState(pc2).val && !getState(pc3).val && !getState(pc4).val) {
+        // If all ids are false, then make infofield empty
+        setState(infoField, "");
+        return;
+    } else if (!show) {
+        return; // catch, when resetting a state to false
+    }
+
+    switch(oID){
+        case pc1:
+            // setState(infoField, "<b>TODO:</b> PC1");
+            readFile("0_userdata.0", "pc-specs/PC1.json",  function (error, data) { parseInfo(data) });
+            resetOthers(pc1);
+            break;
+        case pc2:
+            //setState(infoField, "<b>TODO:</b> PC2");
+            readFile("0_userdata.0", "pc-specs/PC2.json",  function (error, data) { parseInfo(data) });
+            resetOthers(pc2);
+            break;
+        case pc3:
+            //setState(infoField, "<b>TODO:</b> PC3" );
+            readFile("0_userdata.0", "pc-specs/PC3.json",  function (error, data) { parseInfo(data) });
+            resetOthers(pc3)
+            break;
+        case pc4:
+            // setState(infoField, "<b>TODO:</b> PC4" );
+            readFile("0_userdata.0", "pc-specs/PC4.json",  function (error, data) { parseInfo(data) });
+            resetOthers(pc4);
+            break;
+        default:
+            setState(infoField, "");
+            break;
+    }
+
+});

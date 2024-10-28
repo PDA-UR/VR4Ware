@@ -1,0 +1,50 @@
+/* -- do not edit following lines - START --
+{
+  "expert": true,
+  "debug": false,
+  "verbose": false
+}
+-- do not edit previous lines - END --*/
+let timeout = 90; // in Millisekunden
+
+const lab = "mqtt.0.motionSensorLabor";
+const studio = "mqtt.0.motionSensorStudio";
+const werkstatt = "mqtt.0.motionSensorWerkstatt";
+
+const outTopics = {
+    "lab":    "0_userdata.0.Anwesenheit.Labor",
+    "studio": "0_userdata.0.Anwesenheit.Studio",
+    "werkstatt":   "0_userdata.0.Anwesenheit.Werkstatt"
+    }
+
+// Sobald ein Wert true ist, das entsprechende outTopic für timeout Minuten auf true setzen, danach wieder false.
+// Falls es zwischendurch wieder true wird, startet das ganze von Neuem.
+
+function startTimeout(sensor, outTopic) {
+    clearTimeout(outTopicTimers[sensor]); 
+    setState(outTopics[sensor], true); 
+
+    outTopicTimers[sensor] = setTimeout(function() {
+        setState(outTopics[sensor], false);
+    }, timeout * 1000);
+}
+
+const outTopicTimers = {};
+
+on({id: lab, change: "any"}, function (obj) {
+    if (obj.state.val) { 
+        startTimeout("lab", outTopics.lab);
+    }
+});
+
+on({id: studio, change: "any"}, function (obj) {
+    if (obj.state.val) {  
+        startTimeout("studio", outTopics.studio);
+    }
+});
+
+on({id: werkstatt, change: "any"}, function (obj) {
+    if (obj.state.val) {  
+        startTimeout("werkstatt", outTopics.werkstatt);
+    }
+});

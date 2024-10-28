@@ -1,0 +1,34 @@
+/* -- do not edit following lines - START --
+{
+  "expert": true,
+  "debug": false,
+  "verbose": false
+}
+-- do not edit previous lines - END --*/
+const btn = "0_userdata.0.automations.presentation_mode";
+const projectorPower = "mqtt.0.projector.3.out.power";
+const projectorInput = "0_userdata.0.matrix.InputFor3";
+// const bell = "";
+
+// set Klingel to mute? (geht vermutlich nicht, weil sonst die Studie angestellt wird)
+
+// Start  the projector (3) and set the hdmi matrix to the correct output (5)
+function startMode() { 
+    setState(projectorPower, "true"); // works
+    setState(projectorInput, "5"); // ? // set matrix to 1V3.
+}
+
+function stopMode() {
+    setState(projectorPower, "false"); // works
+}
+
+
+on({id: btn, change: "any"}, function (obj) { 
+    const start = getState(btn).val
+    log("start presentation mode: "+start);
+    if (start) {
+        startMode();
+    } else {
+        stopMode();
+    }
+});
