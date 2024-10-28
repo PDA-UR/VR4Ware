@@ -10,8 +10,6 @@ Für eine ausführlichere Beschreibung kann das [Wiki](https://wiki.mi.ur.de/lab
 
 Dieses Repository beinhaltet alle Skripte, Snippets und andere Artefakte, wie 3D-Print-Files, die während des Projekts entstanden sind.
 
-Für einige Skripte werden Anmeldedaten benötigt, die hier mit 
-TODO 
-geschwärzt wurden.
+Für einige Skripte werden Anmeldedaten benötigt, die hier mit `PLACEHOLDER` geschwärzt wurden.
 
 Entstandener Code ist im `Script`-Ordner zu finden.
