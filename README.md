@@ -1,39 +1,17 @@
-## Erstes Meeting – 19.06.
+# VR4Ware
 
-### Grobe Anforderungen 
+Das Repository für das VR4-Ware Projekt des Praxisseminars im Sommersemester 2024 an der Uni Regensburg.
 
-- to add
-	- Bachelorarbeit Kwoska 2022
-	- Praxisseminar 2018
-- Sinnvolle, erweiterbare Abläufe
-- Demonstrierbar
-- (ePaper-) Display an Türe zur Raumnutzung
-- Synchronisation mit Raumbuchungskalender
-- Studienleuchte
-- Präsenzstatus der Personen im Raum
-- Licht an?
-- Rechner an/aus – Status und Kontrolle
-- HDMI-Vernetzung
-- UHF-RFID Inventarsystem
-- Drucker muss laufen
+Die Idee war eine zentrale, intelligente Vernetzung von neuer und vorhandener Sensorik sowie Darstellungsmöglichkeiten für das VR4-Labor zu schaffen.
 
+Für eine ausführlichere Beschreibung kann das [Wiki](https://wiki.mi.ur.de/lab/vr4/roomware/start) oder der Projektbericht gelesen werden.
 
-### Tools
-- IOBroker als zentrale Verwaltung
-	- `NodeRed`
-	- `Vis`
-	- oder eigenes Front-End über `REST-API`?
-	- Fernsteuerung über M5Stacks, Kommunikation über `MQTT`
+## Repository
 
-### Todo
-- [x] Verfügbarkeitsplan Team
-- [x] Einlesen
-- [x] [Zeittabelle [300-500h/Person]](https://docs.google.com/spreadsheets/d/1Y5u3R7V6bqwAI3mtcm51P9iCSfqQ9fepIYHyi3u8pyk/edit?gid=0#gid=0)
-- [x] Logbuch von allen Tätigkeiten (Konfig-Änderungen, Passwörter, etc.)
-- [x] Discord
-- [x] Feineres Anforderungsdoc
+Dieses Repository beinhaltet alle Skripte, Snippets und andere Artefakte, wie 3D-Print-Files, die während des Projekts entstanden sind.
 
-### Termine
-- Mensa und Meeting: Freitag, 21.06., 12:30 Uhr in OTH-Mensa
-- Einführung in Netzwerk/Technik: Donnerstag, 27.06., 13:00 Uhr im VR4
-- Weitere Termine im GitHub
+Für einige Skripte werden Anmeldedaten benötigt, die hier mit 
+TODO 
+geschwärzt wurden.
+
+Entstandener Code ist im `Script`-Ordner zu finden.
