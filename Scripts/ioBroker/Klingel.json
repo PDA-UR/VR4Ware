@@ -1,0 +1,31 @@
+/* -- do not edit following lines - START --
+{
+  "expert": true,
+  "debug": false,
+  "verbose": false
+}
+-- do not edit previous lines - END --*/
+let timeout = 15; // in Millisekunden
+
+const inBell = "mqtt.0.doorbell";
+const outBell = "0_userdata.0.automations.show_doorbell"
+let topicTimers = null;
+
+
+// Sobald ein Wert true ist, das entsprechende outTopic für timeout Minuten auf true setzen, danach wieder false.
+// Falls es zwischendurch wieder true wird, startet das ganze von Neuem.
+
+function startTimeout() {
+    setState(outBell, true); 
+
+    setTimeout(function() {
+        setState(outBell, false);
+    }, timeout * 500);
+}
+
+
+on({id: inBell, change: "any"}, function (obj) {
+    if (obj.state.val) { 
+        startTimeout();
+    }
+});

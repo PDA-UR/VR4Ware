@@ -1,0 +1,67 @@
+/* -- do not edit following lines - START --
+{
+  "expert": true,
+  "debug": false,
+  "verbose": false
+}
+-- do not edit previous lines - END --*/
+const in3ID = "0_userdata.0.matrix.InputFor3"; // Beamer 3 --> hdmi: 3, 4, 5
+const in4ID = "0_userdata.0.matrix.InputFor4"; // Beamer 4 --> hdmi: 3, 4, 5
+const commandID ="0_userdata.0.matrix.matrixCommand"; // command executed via node-red
+
+// TODO: status von matrix auslesen
+
+// via: https://forum.iobroker.net/topic/3441/gel%C3%B6st-tcp-daten-senden/11#
+var net = require('net');
+function sendMessage(host, port, message) {
+    var client = net.connect({host:host, port: port}, function () {
+    // 'connect' listener
+    console.log('connected to server!');
+    client.write(""); // "Please Input Your Command:"-Zeile abfangen 
+    client.write(message); // richtigen command schicken
+    });
+    client.on('data', function (data) {
+        console.log(data.toString());
+        client.end();
+    });
+    client.on('end', function () {
+        console.log('disconnected from server');
+    });
+    client.on('error', function (error) {
+        console.error('error: ' + error);
+        client.end();
+    });
+}
+
+// on change of any of the 2 objects: create a command to send to the matrix-switch (check all projectors on t/f)
+function generateSwitchCommnand(projector){
+    console.log("proj " + projector);
+    
+    const in3 = getState(in3ID).val;
+    const in4 = getState(in4ID).val;
+
+    let input = "";
+    let output = projector;
+    if (in3 == in4) {
+        input = in3;
+        output = "3,4"; 
+    } 
+    else if (projector == "3") input = in3;
+    else if (projector == "4") input = in4;
+
+    if (input == "5") input = "1"; // 5 not working on matrix
+    
+    const command = `${input}V${output}.`; // mit Punkt am Ende !!!
+    log("command = " + command);
+
+    sendMessage("192.168.2.13", 4001, command);
+    // sendMessage("192.168.2.13", 4001, "Status.");
+    // setState(commandID, command);
+}
+
+on(in3ID, function() {
+    generateSwitchCommnand(3);
+});
+on(in4ID, function() {
+    generateSwitchCommnand(4);
+});
