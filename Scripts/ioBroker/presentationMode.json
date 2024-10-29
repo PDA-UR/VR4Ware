@@ -15,7 +15,7 @@ const projectorInput = "0_userdata.0.matrix.InputFor3";
 // Start  the projector (3) and set the hdmi matrix to the correct output (5)
 function startMode() { 
     setState(projectorPower, "true"); // works
-    setState(projectorInput, "5"); // ? // set matrix to 1V3.
+    setState(projectorInput, "1"); // ? // set matrix to 1V3.
 }
 
 function stopMode() {
@@ -32,3 +32,14 @@ on({id: btn, change: "any"}, function (obj) {
         stopMode();
     }
 });
+
+on({id: projectorPower, change: "any"}, function (obj) {
+    // if power is off and project mode is on
+    // turn project mode off
+    const status = getState(projectorPower).val;
+    const button = getState(btn).val;
+    if (status == false && button == true) {
+        log("turning projector mode off, as its no longer needed");
+        setState(btn, false);
+    }
+})
