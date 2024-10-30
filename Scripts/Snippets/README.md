@@ -1,3 +1,3 @@
 # Snippets
 
-Verschiedenen einfache Test-Skripts, auf denen später aufgebaut wurde.
+Verschiedene einfache Test-Skripts, auf denen später aufgebaut wurde.
