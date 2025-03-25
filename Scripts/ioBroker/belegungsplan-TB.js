@@ -214,7 +214,7 @@ function createCalendarImage(events, name, iteration) {
             }
             }
         } else if (date > currentDate && date <= upcoming) { // check next 14 days
-            // upcoming = date; // uncomment for only 1 future event per room
+            upcoming = date; // uncomment for only 1 future event per room
             events[date].sort((a, b) => a.start - b.start);
             nextEvent = events[date][0];
             upcomingString = name + ", " + upcoming.substring(8, 10) + '.' + upcoming.substring(5, 7) + '.' + upcoming.substring(0, 4);;
